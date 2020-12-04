@@ -1,5 +1,5 @@
 <?php
-namespace ptDB;
+namespace peDB;
 	require('lib/ptDB-comparator.php');
 
 class Datastore {
@@ -35,7 +35,8 @@ class Datastore {
 			// which is not well adapted to non-US characters in particular accented letters. Native localCompare will most of the time be the right choice
 		'compareStrings' => 'strcmp'
 	];
-	protected $data;
+	public $data;
+	// protected $data;
 
 
 	public function __construct($options = []) {
@@ -132,6 +133,8 @@ class Datastore {
 		if(!is_array($this->data))
 			return;
 
+		if(!is_array($keys))
+			$keys = [];
 		return include('lib/ptDB-find.php');
 	}
 
@@ -142,6 +145,7 @@ class Datastore {
 		if(count(array_filter(array_keys($data), 'is_string')) > 0)
 			$data = [$data];
 
+		$fOp = 'a+';
 		return include('lib/ptDB-insert.php');
 	}
 
@@ -149,12 +153,22 @@ class Datastore {
 		if(!is_array($this->data))
 			return;
 
+		$options = array_merge([
+			'multi' => false,
+			'upsert' => false,
+			'returnUpdatedDocs' => false
+		], $options);
+
 		return include('lib/ptDB-update.php');
 	}
 
 	public function remove($query, $options = [], $callback = null) {
 		if(!is_array($this->data))
 			return;
+
+		$options = array_merge([
+			'multi' => false
+		], $options);
 
 		return include('lib/ptDB-remove.php');
 	}
