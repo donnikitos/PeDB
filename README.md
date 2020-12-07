@@ -637,8 +637,6 @@ $store->ensureIndex({ fieldName: 'expirationDate', expireAfterSeconds: 0 }, func
 A copy of the whole database is kept in memory. This should be not too much on the expected kind of datasets (20MB for 10,000 2KB documents).
 
 ## Pull requests
-**Important: PeDB is considered to be feature-complete, i.e. the API should do everything I it should do and nothing more. I don't want not accept pull requests for features. Bugfixes are fine of course.**
-
 If you submit a pull request, thanks! There are a couple rules to follow though to make it manageable:
 * The pull request should be atomic, i.e. contain only one feature. If it contains more, please submit multiple pull requests. Reviewing massive pull requests is extremely hard.
 * Please stick to the current coding style. It's important that the code uses a coherent style for readability.
