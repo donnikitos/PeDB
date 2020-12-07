@@ -1,5 +1,5 @@
 <?php
-$data = $this->find($query, null, $keys);
+$data = $this->find($query, $keys);
 
 foreach($keys as $key) {
 	unset($this->data[$key]);
@@ -10,4 +10,4 @@ foreach($keys as $key) {
 
 $data = $this->data;
 $fOp = 'w+';
-return include('ptDB-insert.php');
+return include('insert.php');

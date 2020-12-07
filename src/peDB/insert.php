@@ -6,7 +6,7 @@ foreach($data as $entry) {
 	if(!isset($entry['_id']))
 		$entry['_id'] = substr(uniqid(bin2hex(openssl_random_pseudo_bytes(10))), -16);
 
-	if($fOp == 'a+')
+	if(!$fOp || $fOp != 'w+')
 		$this->data[] = $entry;
 
 	if($store) {
@@ -26,8 +26,4 @@ if($store)
 	fclose($store);
 
 // Output items
-$output = count($data);
-if(is_callable($callback))
-	$callback(null, $output);
-
-return $output;
+return count($data);

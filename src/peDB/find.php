@@ -44,7 +44,4 @@ else {
 }
 
 // Output items
-if(is_callable($callback))
-	$callback(null, $output);
-
 return $output;

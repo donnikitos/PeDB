@@ -1,6 +1,6 @@
 <?php
 namespace peDB;
-	require('lib/ptDB-comparator.php');
+	require('peDB/_fn.php');
 
 class Datastore {
 	protected $config = [
@@ -129,16 +129,16 @@ class Datastore {
 		}
 	}
 
-	public function find($query, $callback = null, &$keys = []) {
+	public function find($query, &$keys = []) {
 		if(!is_array($this->data))
 			return;
 
 		if(!is_array($keys))
 			$keys = [];
-		return include('lib/ptDB-find.php');
+		return include('peDB/find.php');
 	}
 
-	public function insert($data, $callback = null) {
+	public function insert($data) {
 		if(!is_array($this->data))
 			return;
 
@@ -146,10 +146,10 @@ class Datastore {
 			$data = [$data];
 
 		$fOp = 'a+';
-		return include('lib/ptDB-insert.php');
+		return include('peDB/insert.php');
 	}
 
-	public function update($query, $update, $options = [], $callback = null) {
+	public function update($query, $update, $options = []) {
 		if(!is_array($this->data))
 			return;
 
@@ -159,10 +159,10 @@ class Datastore {
 			'returnUpdatedDocs' => false
 		], $options);
 
-		return include('lib/ptDB-update.php');
+		return include('peDB/update.php');
 	}
 
-	public function remove($query, $options = [], $callback = null) {
+	public function remove($query, $options = []) {
 		if(!is_array($this->data))
 			return;
 
@@ -170,7 +170,7 @@ class Datastore {
 			'multi' => false
 		], $options);
 
-		return include('lib/ptDB-remove.php');
+		return include('peDB/remove.php');
 	}
 
 	public function __destruct() {
