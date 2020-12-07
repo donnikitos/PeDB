@@ -145,7 +145,6 @@ class Datastore {
 		if(count(array_filter(array_keys($data), 'is_string')) > 0)
 			$data = [$data];
 
-		$fOp = 'a+';
 		return include('peDB/insert.php');
 	}
 

@@ -1,12 +1,15 @@
 <?php
+if(!isset($fOp))
+	$fOp = 'a+';		// append each entry from $data
+
 if($this->config['filename'])
-	$store = fopen($this->config['filename'].'~', $fOp.'b');
+	$store = fopen($this->config['filename'].'~', $fOp.'b');		// w+ -> write zero file and write from beginning
 
 foreach($data as $entry) {
 	if(!isset($entry['_id']))
 		$entry['_id'] = substr(uniqid(bin2hex(openssl_random_pseudo_bytes(10))), -16);
 
-	if(!$fOp || $fOp != 'w+')
+	if($fOp != 'w+')
 		$this->data[] = $entry;
 
 	if($store) {

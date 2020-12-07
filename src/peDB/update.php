@@ -7,32 +7,35 @@ foreach($keys as $key)
 if($options['upsert'] && count($data) == 0)
 	$data[] = [];
 
-foreach($data as &$entry) {
-	$op = 'set';
+foreach($data as $entry) {
 	if(substr(key($update), 0, 1) == '$') {
 		$op = substr(key($update), 1);
 		$update = $update['$'.$op];
+
+		foreach($update as $key => $val) {
+			$updateKeys = array_reverse(explode('.', $key));
+			foreach($updateKeys as $eKey)
+				$val = [$eKey => $val];
+
+			switch($op) {
+				case 'set':
+					$entry = array_merge($entry, $val);
+					break;
+				case 'unset':
+				case 'inc':
+				case 'min':
+				case 'max':
+				case 'push':
+				case 'pop':
+				case 'addToSet':
+				case 'pull':
+				case 'each':
+				case 'slice':
+			}
+		}
 	}
-
-	$updateKeys = explode('.', key($update));
-
-	switch($op) {
-		case 'set':
-			$val = $update[key($update)];
-			foreach($updateKeys as $key)
-				$val = [$key => $val];
-			$entry = array_merge($entry, $val);
-			break;
-		case 'unset':
-		case 'inc':
-		case 'min':
-		case 'max':
-		case 'push':
-		case 'pop':
-		case 'addToSet':
-		case 'pull':
-		case 'each':
-		case 'slice':
+	else {
+		$entry = array_merge($update, ['_id' => $entry['_id']]);
 	}
 
 	$this->data[] = $entry;
